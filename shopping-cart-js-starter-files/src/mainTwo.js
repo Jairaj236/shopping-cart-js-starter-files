@@ -1,11 +1,11 @@
  const shop = document.getElementById('shop')
 //  console.log(shop)
 
-  let basket =[]
+  let basket = JSON.parse(localStorage.getItem('data'))||[]
  function display(){
     return (shop.innerHTML = shopItemsData.map((item)=>{ 
               let {id,img,name,desc,price} = item;
-                const search = basket.filter((x)=>x.id ===id)
+                 let search = basket.find((x) => x.id === id) || [];
                 // console.log("id", id)
         return `
     <div id=product-id-${id} class="item">
@@ -45,6 +45,9 @@ let increment = (id) => {
   else{
      search.item +=1
   }
+
+   localStorage.setItem('data',JSON.stringify( basket))
+
   update(selectedItem.id);
 
   
@@ -58,7 +61,7 @@ function decrement(id){
   else {
     search.item -= 1;
   }
-  
+   localStorage.setItem('data',JSON.stringify( basket))
   update(selectedItem.id);
 }
 
@@ -73,3 +76,4 @@ let calculation = () => {
     const cartCount = document.getElementById("cartAmount")
     cartCount.innerHTML = basket.map(x=>x.item).reduce((ac,val)=> ac+val,0)
 }
+calculation();
